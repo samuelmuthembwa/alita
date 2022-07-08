@@ -33,6 +33,7 @@ exports.cleaner = async(m, sock ) => {
             AlitaBotObject.args = rawArgsArr.join(" ").replace(","," ")
             AlitaBotObject.groupMembers =AlitaBotObject.isGroup ? AlitaBotObject.groupMetadata.participants : '';
             AlitaBotObject.groupAdmins = AlitaBotObject.isGroup ? getGroupAdmins(AlitaBotObject.groupMembers) : '';
+            console.log("Cleaner.js resolve : "+AlitaBotObject)
             return resolve(AlitaBotObject)
     
         } catch (error) {
