@@ -13,7 +13,7 @@ const { handleAi } = require("./functions/Ai");
 // start a connection
 const startSock = async () => {
   const { version } = await fetchLatestBaileysVersion();
-  const { state, saveCreds } = await useMultiFileAuthState("./gitauth_info_multi.json");
+  const { state, saveCreds } = await useMultiFileAuthState("auth_info_multi");
   console.log(banner);
   const sock = makeWASocket({
     version,
