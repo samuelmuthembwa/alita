@@ -1,8 +1,17 @@
-const fetch =require("node-fetch")
-fetch('http://www.safaricom.com').then((response)=>{
-    console.log(response); // Will show you the status
-    if (!response.ok) {
-        throw new Error("HTTP status " + response.status);
-    }
-    return response.json();
-});
+const commandsObj = require("./json/responses");
+const commands = commandsObj.commands;
+let helpMsg = "👸🏾 Help List here friend. \n";
+for (let i = 0; i < commands.length; i++) {
+  const command = commands[i];
+  msg =
+    " 📔 Description : " +
+    command.description +
+    "\n 🕹️ Command: " +
+    command.command +
+    "\n Example Usage: " +
+    command.example +
+    "\n\n";
+  helpMsg += msg;
+}
+
+console.log(helpMsg);

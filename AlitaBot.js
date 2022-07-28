@@ -4,25 +4,25 @@ const commandHandler = require("./core/commandHandler");
 const makeWASocket = require("@adiwajshing/baileys").default;
 const {
   fetchLatestBaileysVersion,
-  useSingleFileAuthState,
+  useMultiFileAuthState,
 } = require("@adiwajshing/baileys");
 const banner = require("./core/banner");
-const { state, saveState } = useSingleFileAuthState("./auth_info_multi.json");
+
 //Functions Import
 const { handleAi } = require("./functions/Ai");
 // start a connection
 const startSock = async () => {
   const { version } = await fetchLatestBaileysVersion();
+  const { state, saveCreds } = await useMultiFileAuthState("./gitauth_info_multi.json");
   console.log(banner);
   const sock = makeWASocket({
     version,
     printQRInTerminal: true,
     auth: state,
-    browser: ["AlitaBot v2.0"],
+    browserer: [" 👸🏾 AlitaBot v2 "],
   });
   sock.ev.on("messages.upsert", async ({ messages }) => {
     let m = messages[0];
-    // console.log(JSON.stringify(m))
     if (m.message != undefined && m.message != null) {
       if (m.key.fromMe == false) {
         resolver
@@ -33,10 +33,7 @@ const startSock = async () => {
               commandHandler.commandHandler(resolve, m, sock);
             }
 
-            if (
-              resolve.mimetype == "ex-text" &&
-              resolve.quotedsender == "254734962640@s.whatsapp.net"
-            ) {
+            if (resolve.quotedsender == "254734962640@s.whatsapp.net") {
               handleAi(m, sock, resolve);
             }
           })
@@ -64,7 +61,7 @@ const startSock = async () => {
     console.log("connection update", update);
   });
   // listen for when the auth credentials is updated
-  sock.ev.on("creds.update", saveState);
+  sock.ev.on("creds.update", saveCreds);
 
   return sock;
 };
